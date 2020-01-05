@@ -16,7 +16,6 @@ class Constant {
     public static final String HOOK = "hook";
     public static final String APK_PATH = "apk_dir";
     public static final String PKG_ALI = "com.eg.android.AlipayGphone";
-    public static final String PKG_WELINK_SIT = "com.huawei.welink.sit";
     public static final String PKG_EBUS = "com.qianbajin.ebus";
     public static final String APK_LIST = "apk_list";
 }
