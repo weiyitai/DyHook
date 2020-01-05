@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">DyHook</string>
+    <string name="action_new_app">add</string>
+    <string name="remove_confirm">确定移除吗</string>
+    <string name="sel_app">请选择添加一个应用</string>
+</resources>
