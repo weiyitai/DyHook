@@ -3,7 +3,9 @@ package com.qianbajin.dyhook;
 import android.util.Log;
 
 import com.qianbajin.dyhook.h.EbusHook;
+import com.qianbajin.dyhook.h.KuaiMaoHook;
 import com.qianbajin.dyhook.h.NetHook;
+import com.qianbajin.dyhook.h.XLogHook;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -29,6 +31,12 @@ public class Hook implements IXposedHookLoadPackage {
         switch (lpparam.packageName) {
             case Constant.PKG_EBUS:
                 new EbusHook().hook();
+                break;
+            case Constant.PKG_CAT:
+                new KuaiMaoHook().hook2();
+                break;
+            case Constant.PKG_WECHAT:
+                new XLogHook().hook();
                 break;
             default:
                 new NetHook().hook();
