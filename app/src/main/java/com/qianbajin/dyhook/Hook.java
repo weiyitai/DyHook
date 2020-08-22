@@ -2,9 +2,9 @@ package com.qianbajin.dyhook;
 
 import android.util.Log;
 
+import com.qianbajin.dyhook.h.Anh;
 import com.qianbajin.dyhook.h.EbusHook;
 import com.qianbajin.dyhook.h.KuaiMaoHook;
-import com.qianbajin.dyhook.h.NetHook;
 import com.qianbajin.dyhook.h.XLogHook;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -38,8 +38,10 @@ public class Hook implements IXposedHookLoadPackage {
             case Constant.PKG_WECHAT:
                 new XLogHook().hook();
                 break;
+            case Constant.PKG_ANT_HELPER:
+                new Anh().hook();
+                break;
             default:
-                new NetHook().hook();
                 break;
         }
     }

@@ -47,7 +47,7 @@ public class DyLoader implements IXposedHookLoadPackage {
                 Method handleLoadPackage = handleHookClass.getDeclaredMethod("handleLoadPackage", XC_LoadPackage.LoadPackageParam.class);
                 handleLoadPackage.invoke(instance, lpparam);
             }
-            Log.d(TAG, "contains:" + b + " packageName:" + packageName + " stringSet:" + stringSet);
+            Log.d(TAG, "contains:" + b + " packageName:" + packageName + " stringSet:" + stringSet.size());
         } catch (Throwable e) {
             Log.d(TAG, Log.getStackTraceString(e));
 
