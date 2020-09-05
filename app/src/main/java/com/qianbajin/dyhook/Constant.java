@@ -20,5 +20,7 @@ class Constant {
     public static final String PKG_EBUS = "com.qianbajin.ebus";
     public static final String PKG_WECHAT= "com.tencent.mm";
     public static final String PKG_ANT_HELPER= "com.qianbajin.anthelper";
+    public static final String PKG_JOYOSE= "com.xiaomi.joyose";
+    public static final String PKG_WORKS= "com.huawei.works";
     public static final String APK_LIST = "apk_list";
 }
