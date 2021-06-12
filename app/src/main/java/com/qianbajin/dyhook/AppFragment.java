@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -104,8 +105,9 @@ public class AppFragment extends ListFragment {
         mAdapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1, list);
         setListAdapter(mAdapter);
-        getListView().setFastScrollEnabled(true);
-        getListView().setOnItemClickListener((parent, view, position, id) -> {
+        ListView listView = getListView();
+        listView.setFastScrollEnabled(true);
+        listView.setOnItemClickListener((parent, view, position, id) -> {
             String item = mAdapter.getItem(position);
             if (item != null) {
                 setResults(item, names);

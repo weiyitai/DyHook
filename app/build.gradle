@@ -58,6 +58,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly 'de.robv.android.xposed:api:82'
     implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+    implementation 'com.alibaba:fastjson:1.1.63.android'
 //    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.0'
 
 }

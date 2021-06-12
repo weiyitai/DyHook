@@ -4,8 +4,13 @@ import android.util.Log;
 
 import com.qianbajin.dyhook.h.Anh;
 import com.qianbajin.dyhook.h.EbusHook;
+import com.qianbajin.dyhook.h.HookContact;
+import com.qianbajin.dyhook.h.HookStep;
+import com.qianbajin.dyhook.h.HookTextView;
+import com.qianbajin.dyhook.h.HookWeLink;
 import com.qianbajin.dyhook.h.KuaiMaoHook;
-import com.qianbajin.dyhook.h.XLogHook;
+import com.qianbajin.dyhook.h.MiPayHook;
+import com.qianbajin.dyhook.h.WeChatHook;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -36,10 +41,25 @@ public class Hook implements IXposedHookLoadPackage {
                 new KuaiMaoHook().hook2();
                 break;
             case Constant.PKG_WECHAT:
-                new XLogHook().hook();
+                new WeChatHook().hookWeb();
                 break;
             case Constant.PKG_ANT_HELPER:
                 new Anh().hook();
+                break;
+            case Constant.PKG_JOYOSE:
+                new HookStep().hook();
+                break;
+            case Constant.PKG_WORKS:
+                new HookTextView().hook();
+                break;
+            case Constant.PKG_WELINK:
+                new HookWeLink().hook();
+                break;
+            case Constant.PKG_MIPAY_WALLET:
+                new MiPayHook().hook();
+                break;
+            case Constant.PKG_ANDROID_CONTACTS:
+                new HookContact().hook();
                 break;
             default:
                 break;

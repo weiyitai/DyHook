@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -44,11 +46,26 @@ public class MainActivity extends ListActivity {
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mList);
         setListAdapter(mAdapter);
         getListView().setOnItemClickListener((adapterView, view, i, l) -> removeItem(i));
+        getListView().setOnItemLongClickListener((parent, view, position, id) -> {
+            toDetail(position);
+            return true;
+        });
         String sourceDir = getApplicationInfo().sourceDir;
         Log.d("MainActivity", sourceDir);
         mSp.edit().putString(Constant.APK_PATH, sourceDir).apply();
         getInterceptor();
 
+    }
+
+    private void toDetail(int position) {
+        String pkg = mAdapter.getItem(position);
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", pkg, null));
+        try {
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(TAG, Log.getStackTraceString(e));
+        }
     }
 
     private void getInterceptor() {
@@ -85,10 +102,11 @@ public class MainActivity extends ListActivity {
 
     private void removeItem(int position) {
         new AlertDialog.Builder(this)
-                .setMessage(R.string.remove_confirm)
-                .setPositiveButton(android.R.string.ok, (dialog, which) ->
-                        mAdapter.remove(mAdapter.getItem(position)))
-                .show();
+            .setMessage(R.string.remove_confirm)
+            .setPositiveButton(android.R.string.ok, (dialog, which) ->
+                mAdapter.remove(mAdapter.getItem(position)))
+            .setNeutralButton(R.string.kill_app, (dialog, which) -> toDetail(position))
+            .show();
     }
 
     @Override

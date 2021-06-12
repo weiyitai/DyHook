@@ -3,4 +3,5 @@
     <string name="action_new_app">add</string>
     <string name="remove_confirm">确定移除吗</string>
     <string name="sel_app">请选择添加一个应用</string>
+    <string name="kill_app">结束应用</string>
 </resources>
