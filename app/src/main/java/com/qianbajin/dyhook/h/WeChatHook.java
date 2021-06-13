@@ -2,13 +2,14 @@ package com.qianbajin.dyhook.h;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.qianbajin.dyhook.Util;
 import com.qianbajin.dyhook.util.IntentUtil;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -35,11 +36,11 @@ public class WeChatHook {
             Class<?> xLog = Util.getClassLoader().loadClass("com.tencent.mars.xlog.Xlog");
             Log.d("XLogHook", "xLog:" + xLog);
             Method appenderOpen = XposedHelpers.findMethodExact(xLog, "appenderOpen", int.class, int.class, String.class, String.class,
-                    String.class, int.class, String.class);
+                String.class, int.class, String.class);
             XposedBridge.hookMethod(appenderOpen, XC_MethodReplacement.DO_NOTHING);
             Method[] declaredMethods = xLog.getDeclaredMethods();
             for (Method method : declaredMethods) {
-                String name= method.getName();
+                String name = method.getName();
                 if (name.startsWith("logWrite")) {
                     XposedBridge.hookMethod(method, XC_MethodReplacement.DO_NOTHING);
                 }
@@ -67,23 +68,68 @@ public class WeChatHook {
                 }
             });
 
-            Method setText = XposedHelpers.findMethodExact(TextView.class, "setText", CharSequence.class);
-            XposedBridge.hookMethod(setText, new XC_MethodHook() {
+//            Method setText = XposedHelpers.findMethodExact(TextView.class, "setText", CharSequence.class);
+//            XposedBridge.hookMethod(setText, new XC_MethodHook() {
+//                @Override
+//                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//                    super.afterHookedMethod(param);
+//                    Log.d(TAG, "setText:" + param.args[0]);
+//                }
+//            });
+
+//            XposedHelpers.findAndHookMethod(Activity.class, "getIntent", new XC_MethodHook() {
+//                @Override
+//                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//                    super.afterHookedMethod(param);
+//                    Intent intent = (Intent) param.getResult();
+//                    IntentUtil.printIntent(intent);
+//                }
+//            });
+
+            XposedHelpers.findAndHookMethod(Activity.class, "startActivityForResult", Intent.class, int.class, Bundle.class, new XC_MethodHook() {
                 @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    super.afterHookedMethod(param);
-                    Log.d(TAG, "setText:" + param.args[0]);
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    Log.d(TAG, "startActivityForResult");
+                    Intent intent = (Intent) param.args[0];
+                    Bundle bundle = (Bundle) param.args[2];
+                    IntentUtil.printIntent(intent);
+                    IntentUtil.printBundle(bundle);
+                }
+            });
+            XposedHelpers.findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    Log.d(TAG, "onCreate:" + param.thisObject.getClass().getSimpleName());
+                    Bundle bundle = (Bundle) param.args[0];
+                    IntentUtil.printBundle(bundle);
                 }
             });
 
-            XposedHelpers.findAndHookMethod(Activity.class, "getIntent", new XC_MethodHook() {
+            XposedHelpers.findAndHookMethod(Activity.class, "onNewIntent", Intent.class, new XC_MethodHook() {
                 @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    super.afterHookedMethod(param);
-                    Intent intent = (Intent) param.getResult();
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    Intent intent = (Intent) param.args[0];
+                    Log.d(TAG, "onNewIntent:" + intent);
                     IntentUtil.printIntent(intent);
                 }
             });
+            Class<?> aClass = loader.loadClass("com.tencent.mm.ui.MMFragmentActivity");
+            Method[] declaredMethods = aClass.getDeclaredMethods();
+            for (Method method : declaredMethods) {
+                if (method.getName().contains("switchFragment")) {
+                    XposedBridge.hookMethod(method, new XC_MethodHook() {
+                        @Override
+                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                            super.afterHookedMethod(param);
+                            Log.d(TAG, "param.method:" + param.method);
+                            Log.d(TAG, "param.method:" + (param.args != null ? param.args.length : 0) + " " + Arrays.toString(param.args));
+                        }
+                    });
+                }
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

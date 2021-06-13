@@ -54,7 +54,6 @@ public class MainActivity extends ListActivity {
         Log.d("MainActivity", sourceDir);
         mSp.edit().putString(Constant.APK_PATH, sourceDir).apply();
         getInterceptor();
-
     }
 
     private void toDetail(int position) {
