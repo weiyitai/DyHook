@@ -5,6 +5,7 @@ import android.util.Log;
 import com.qianbajin.dyhook.h.Anh;
 import com.qianbajin.dyhook.h.EbusHook;
 import com.qianbajin.dyhook.h.HookContact;
+import com.qianbajin.dyhook.h.HookPiPiXia;
 import com.qianbajin.dyhook.h.HookStep;
 import com.qianbajin.dyhook.h.HookTextView;
 import com.qianbajin.dyhook.h.HookWeLink;
@@ -60,6 +61,9 @@ public class Hook implements IXposedHookLoadPackage {
                 break;
             case Constant.PKG_ANDROID_CONTACTS:
                 new HookContact().hook();
+                break;
+            case Constant.PKG_PIPIXIX:
+                new HookPiPiXia().hook();
                 break;
             default:
                 break;

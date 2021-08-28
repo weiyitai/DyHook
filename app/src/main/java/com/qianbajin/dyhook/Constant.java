@@ -25,5 +25,6 @@ class Constant {
     public static final String PKG_WELINK= "com.huawei.welink";
     public static final String PKG_MIPAY_WALLET= "com.mipay.wallet";
     public static final String PKG_ANDROID_CONTACTS= "com.android.contacts";
+    public static final String PKG_PIPIXIX= "com.sup.android.superb";
     public static final String APK_LIST = "apk_list";
 }
